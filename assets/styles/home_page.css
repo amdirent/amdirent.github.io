@@ -175,6 +175,7 @@ h4 {
   border: 1px solid #7f99b0;
   border-radius:0 !important;
   transition: box-shadow 0.5s;
+  min-height: 810px;
 }
 
 .panel:hover {
