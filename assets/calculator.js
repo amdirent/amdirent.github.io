@@ -7,23 +7,28 @@ var myUUID = localStorage.getItem('uuid'),
       error  : $('.error-state'),
       success: $('.success-state')
     },
+    fadeBetween = function(fromEl, toEl) {
+      fromEl.fadeOut(100, function() {
+        toEl.fadeIn(100);
+      });
+    },
     advancePendingState = function() {
       switch(pendingState) {
         case 'initial':
           pendingState = 'second';
-          $('.pending-state__initial').hide();
-          $('.pending-state__second').show();
+          fadeBetween($('.pending-state__initial'),
+                      $('.pending-state__second'));
           break;
         case 'second':
           pendingState = 'third';
-          $('.pending-state__second').hide();
-          $('.pending-state__third').show();
+          fadeBetween($('.pending-state__second'),
+                      $('.pending-state__third'));
           break;
         case 'third':
           // this is taking too long
           pendingState = 'timeout'
-          stateElements.pending.hide();
-          stateElements.timeout.show();
+          fadeBetween(stateElements.pending,
+                      stateElements.timeout);
           clearInterval(pendingTimer);
           break;
       }
@@ -38,28 +43,30 @@ var myUUID = localStorage.getItem('uuid'),
           'X-Access-Key': 'Ktu90SCFl%t4YFWuk31&7#QTH'
         }
       }).done(function(data) {
+        var toHide;
         clearInterval(pendingTimer);
 
         if(pendingState === 'timeout') {
-          stateElements.timeout.hide();
+          toHide = stateElements.timeout;
         } else {
-          stateElements.pending.hide();
+          toHide = stateElements.pending;
         }
 
         $('.js__estimate').text('$' + data.predicted_cost.toLocaleString());
         localStorage.removeItem('uuid');
-        stateElements.success.show();
+        fadeBetween(toHide, stateElements.success);
       }).fail(function(xhr, status) {
+        var toHide;
         if(xhr.status === 404) {
           return doLookup();
         }
         if(pendingState === 'timeout') {
-          stateElements.timeout.hide();
+          toHide = stateElements.timeout;
         } else {
-          stateElements.pending.hide();
+          toHide = stateElements.pending;
         }
 
-        stateElements.error.show();
+        fadeBetween(toHide, stateElements.error);
         clearInterval(pendingTimer);
       });
     },
