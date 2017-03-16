@@ -1,0 +1,6 @@
+@media (max-width: 700px) {
+  li.threeColumns div span {
+    width: 100%;
+    float: none;
+  }
+}
