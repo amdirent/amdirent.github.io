@@ -79,3 +79,22 @@ if(!myUUID) {
   doLookup();
   pendingTimer = setInterval(advancePendingState, 6000);
 }
+
+$('.btn-cta').on('click', function() {
+  var $this = $(this);
+  $this.prop('disabled', true);
+  $this.html("<span class='glyphicons glyphicons-refresh glyphicon-spin'></span> One moment...");
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json; charset=UTF-8',
+    url: 'https://qiny3w62f7.execute-api.us-east-1.amazonaws.com/prod/start-pdp-builder',
+    data: JSON.stringify({ uuid: myUUID }),
+    headers: {
+      'X-Access-Key': 'Ktu90SCFl%t4YFWuk31&7#QTH'
+    }
+  }).done(function() {
+    location.assign('/talk-soon.html');
+  }).fail(function() {
+    fadeBetween(stateElements.success, stateElements.error);
+  });
+})
