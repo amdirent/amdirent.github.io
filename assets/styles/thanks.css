@@ -1,0 +1,13 @@
+.btn-cta {
+  padding: 12px 20px;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.timeout-state,
+.success-state,
+.error-state,
+.pending-state__second,
+.pending-state__third {
+  display: none;
+}
