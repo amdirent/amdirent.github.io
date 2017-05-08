@@ -115,6 +115,7 @@ h4 {
   margin: 15px 0;
   background-color: #7f99b0 !important;
   color: #fff;
+  white-space: initial;
 }
 
 .amdrnt-signup__form__btn:hover {
